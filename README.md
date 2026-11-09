@@ -1,4 +1,4 @@
-# CursoVagas
+# Emprego Certo
 
 Upload de certificado PDF/JPG/PNG, leitura de formação com Gemini e descoberta de anúncios com Tavily. A pessoa revisa o curso e os cargos sugeridos, escolhe cidade/UF, modalidade e nível de carreira. Há alternativa manual e vagas salvas apenas no navegador.
 
@@ -45,3 +45,20 @@ Os testes cobrem consentimento, validação de entrada, arquivo inválido, exclu
 ## Limites do MVP
 
 Gemini e Tavily dependem de conexão, disponibilidade e cotas das contas. O plano Free do Render pode dormir sem acessos e perder consultas temporárias ao reiniciar. Não há candidatura automática nem upload do certificado aos recrutadores. Os provedores processam os dados enviados conforme suas políticas; o operador deve revisar as condições antes de abrir o serviço a terceiros.
+
+
+## Contas reais
+
+A área de conta usa o SDK oficial do Supabase Auth. Cadastre SUPABASE_URL e SUPABASE_PUBLISHABLE_KEY no ambiente (a chave publicável, nunca service_role). O aplicativo não cria tabelas de senha e não usa tabelas públicas de usuários. Tokens ficam em cookies assinados, HttpOnly e Secure no HTTPS, sem localStorage. Nome/e-mail são retornados para a própria sessão.
+
+No Supabase, em Authentication > URL Configuration, use Site URL https://curso-vagas.onrender.com e autorize os redirecionamentos https://curso-vagas.onrender.com/#login e https://curso-vagas.onrender.com/#recuperar. A política de confirmação de e-mail precisa ser definida no Supabase, não apenas no código.
+
+IMPORTANTE: o serviço de e-mail padrão do Supabase envia somente para integrantes da equipe e tem limite reduzido. Para cadastro público confirmado e recuperação de senha, configure SMTP próprio antes de liberar o site para terceiros: https://supabase.com/docs/guides/auth/auth-smtp . Não desative a confirmação de e-mail sem decidir conscientemente essa política.
+
+Os fluxos de cadastro, entrada, saída, confirmação e redefinição estão implementados; autenticação exige configuração real do provedor. Os testes automatizados usam um cliente de autenticação controlado e não substituem validar o recebimento do e-mail no ambiente publicado.
+
+## Cursos e tema
+
+A aba de cursos tem 11 opções da EV.G, com carga horária e links oficiais revisados em 09/11/2026. Gratuidade de curso/certificado depende de cumprir os requisitos da instituição; inscrições e disponibilidade podem mudar. Há busca por texto e filtro por área. Cursos livres não equivalem automaticamente a diploma técnico ou superior.
+
+O tema acompanha a preferência do sistema no primeiro acesso e pode ser alternado no cabeçalho. A escolha é persistida apenas no navegador.
