@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: curso-vagas
+    runtime: node
+    plan: free
+    buildCommand: npm ci --omit=dev
+    startCommand: node bootstrap.mjs
+    healthCheckPath: /api/status
+    envVars:
+      - key: NODE_VERSION
+        value: 22.23.4
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: TAVILY_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.5-flash-lite
